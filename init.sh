@@ -8,7 +8,7 @@
 
 # it's better to run script with sudo
 # sudo bash /home/box/web/init.sh
-sudo ﻿ln -sf /home/box/web/etc/nginx.conf  /etc/nginx/sites-enabled/test.conf
+sudo ln -sf /home/box/web/etc/nginx.conf  /etc/nginx/sites-enabled/test.conf
 sudo /etc/init.d/nginx restart
 
 # in /etc/nginx/sites-enabled/default
