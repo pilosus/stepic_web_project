@@ -15,4 +15,4 @@ sudo /etc/init.d/nginx restart
 # first two comment lines with listen 80 /server_default
 
 sudo ln -sf /home/box/web/etc/hello.py  /etc/gunicorn.d/hello.py
-gunicorn -с /etc/gunicorn.d/hello.py hello
+gunicorn -с /etc/gunicorn.d/hello.py hello:app
