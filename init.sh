@@ -3,6 +3,8 @@
 # $ mkdir -p /home/box/web
 # $ git clone https://github.com/pilosus/stepic_web_project.git /home/box/web
 # $ bash /home/box/web/init.sh
+# if git files changed locally, stash or reset:
+# $ git reset --hard
 
 # it's better to run script with sudo
 # sudo bash /home/box/web/init.sh
