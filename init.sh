@@ -20,5 +20,5 @@ sudo ln -sf /home/box/web/etc/hello.py  /etc/gunicorn.d/hello.py
 sudo ln -sf /home/box/web/etc/django-gunicorn.conf  /etc/gunicorn.d/django-gunicorn.conf
 
 # run gunicorn server
-gunicorn -с /etc/gunicorn.d/hello.py hello:app
-gunicorn -с /etc/gunicorn.d/django-gunicorn.conf ask.wsgi:application
+sudo gunicorn -с /etc/gunicorn.d/hello.py hello:app
+sudo gunicorn -с /etc/gunicorn.d/django-gunicorn.conf ask.wsgi:application
