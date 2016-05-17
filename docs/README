@@ -6,6 +6,62 @@ Django
 
 https://docs.djangoproject.com/en/1.9/intro/tutorial02/
 
+---
+API
+---
+
+$ python manage.py shell
+>>> from qa.models import Question, Answer
+>>> from datetime import datetime
+>>> from django.contrib.auth.models import User
+>>> u = User(username='test')
+>>> u.save()
+>>> c = Question.objects.create(title='How about that?', text='Aha!!! The Spanish Inquisition is coming!', added_at=datetime.now(), rating=10, author=u)
+>>> c.title
+>>> c.author
+>>> c.author.username
+
+>>> c.title = 'The brand new title!'
+>>> c.save()
+
+>>> u1 = User(username='User 1'); u1.save()
+>>> u2 = User(username='User 2'); u2.save()
+>>> u3 = User(username='User 3'); u3.save()
+>>> c.likes = User.objects.all()[1:]
+>>> c.save()
+>>> c.likes.all()
+>>> c.likes.add(u)
+>>> c.save()
+
+>>> try:
+...   question = Question.objects.get(pk=1) # .get(title="...")
+... except Question.DoesNotExist:           # MultipleObjectsReturned
+...   question = None
+>>> question.title
+
+>>> User.objects.all()
+
+>>> Question.objects.filter(author=u)
+>>> Question.objects.filter(author=u1)
+
+>>> Question.objects.filter(title__contains='new').first()
+>>> Question.objects.filter(title__contains='new').first().title
+
+>>> # QuerySet
+>>> Question.objects.filter(title__contains='new').order_by('-rating')
+>>> User.objects.filter(username__contains='User').order_by('-id') # descending order
+>>> User.objects.filter(username__contains='User').order_by('id')  # ascending order
+>>> User.objects.filter(username__contains='User').order_by('-id')[1:3]
+>>> User.objects.filter(username__contains='User').order_by('-id')[1:3].reverse()
+>>> User.objects.filter(username__contains='User').exclude(id=2)
+>>> User.objects.filter(username__contains='User').exclude(id=2).count()
+>>> User.objects.filter(id__gt=2)
+
+>>> User._meta.db_table # db table name
+>>> Question.objects.filter(author__username__contains="test")
+
+
+
 ======
 Deploy
 ======
