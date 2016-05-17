@@ -16,6 +16,9 @@ sudo -s /etc/init.d/nginx restart
 # in /etc/nginx/sites-enabled/default
 # first two comment lines with listen 80 /server_default
 
+# install lib needed for mysql-python package
+sudo -s apt-get install libmysqlclient-dev
+
 # run MySQL & create DB
 sudo -s /etc/init.d/mysql start
 mysql -uroot -e "create database django"
@@ -30,6 +33,8 @@ cd /home/box/web && \
     source /home/box/web/venv/bin/activate && \
     pip install -r requirements/list.txt && \
     cd /home/box/web/ask && \
+    python manage.py syncdb && \
+
     gunicorn -с ../etc/django-gunicorn.conf ask.wsgi:application
 
 #sudo -s gunicorn -с /etc/gunicorn.d/hello.py hello:app
