@@ -1,0 +1,16 @@
+# -*- mode: rst; -*-
+
+======
+Deploy
+======
+
+--
+DB
+--
+
+Instead of hardcored into ask/ask/settings.py, DB password should be
+specified as a shell variable:
+
+$ export DB_PASSWORD=your_password
+
+

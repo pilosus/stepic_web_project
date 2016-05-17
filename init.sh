@@ -7,13 +7,17 @@
 # $ git reset --hard
 
 # create symbolic link to a new nginx config
-sudo ln -sf /home/box/web/etc/nginx.conf  /etc/nginx/sites-enabled/test.conf
+sudo ln -sf /home/box/web/etc/nginx.conf  /etc/nginx/sites-enabled/django.conf
+sudo rm /etc/nginx/sites-enabled/default.conf
 
 # restart nginx
 sudo /etc/init.d/nginx restart
 
 # in /etc/nginx/sites-enabled/default
 # first two comment lines with listen 80 /server_default
+
+# create DB
+mysql -uroot -e "create database django"
 
 # creare symbolic links to gunicorn configs
 sudo ln -sf /home/box/web/etc/hello.py  /etc/gunicorn.d/hello.py

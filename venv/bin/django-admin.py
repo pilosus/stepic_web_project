@@ -1,4 +1,4 @@
-#!/Users/vitaly/git/web-technologies-stepic/github/venv/bin/python2.7
+#!/Users/vitaly/git/stepic_web_project/github/venv/bin/python2.7
 from django.core import management
 
 if __name__ == "__main__":

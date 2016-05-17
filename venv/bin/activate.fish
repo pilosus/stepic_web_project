@@ -32,7 +32,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/vitaly/git/web-technologies-stepic/github/venv"
+set -gx VIRTUAL_ENV "/Users/vitaly/git/stepic_web_project/github/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
