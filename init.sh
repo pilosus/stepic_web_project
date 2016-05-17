@@ -16,14 +16,21 @@ sudo -s /etc/init.d/nginx restart
 # in /etc/nginx/sites-enabled/default
 # first two comment lines with listen 80 /server_default
 
-# create DB
+# run MySQL & create DB
+sudo -s /etc/init.d/mysql start
 mysql -uroot -e "create database django"
 
 # creare symbolic links to gunicorn configs
 sudo -s ln -sf /home/box/web/etc/hello.py  /etc/gunicorn.d/hello.py
 sudo -s ln -sf /home/box/web/etc/django-gunicorn.conf  /etc/gunicorn.d/django-gunicorn.conf
 
-# run gunicorn server
-cd /home/box/web/ask
-sudo -s gunicorn -с /etc/gunicorn.d/hello.py hello:app
-sudo -s gunicorn -с /etc/gunicorn.d/django-gunicorn.conf ask.wsgi:application
+# 
+cd /home/box/web && \
+    virtualenv venv && \
+    source /home/box/web/venv/bin/activate && \
+    pip install -r requirements/list.txt && \
+    cd /home/box/web/ask && \
+    gunicorn -с ../etc/django-gunicorn.conf ask.wsgi:application
+
+#sudo -s gunicorn -с /etc/gunicorn.d/hello.py hello:app
+#sudo -s gunicorn -с /etc/gunicorn.d/django-gunicorn.conf ask.wsgi:application
