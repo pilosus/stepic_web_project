@@ -33,7 +33,7 @@ cd /home/box/web && \
     source /home/box/web/venv/bin/activate && \
     pip install -r requirements/list.txt && \
     cd /home/box/web/ask && \
-    python manage.py syncdb && \
+    python manage.py migrate && \
 
     gunicorn -с ../etc/django-gunicorn.conf ask.wsgi:application
 
