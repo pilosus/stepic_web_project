@@ -7,11 +7,11 @@
 # $ git reset --hard
 
 # create symbolic link to a new nginx config
-sudo ln -sf /home/box/web/etc/nginx.conf  /etc/nginx/sites-enabled/django.conf
-sudo rm /etc/nginx/sites-enabled/default.conf
+sudo -s ln -sf /home/box/web/etc/nginx.conf  /etc/nginx/sites-enabled/django.conf
+sudo -s rm /etc/nginx/sites-enabled/default.conf
 
 # restart nginx
-sudo /etc/init.d/nginx restart
+sudo -s /etc/init.d/nginx restart
 
 # in /etc/nginx/sites-enabled/default
 # first two comment lines with listen 80 /server_default
@@ -20,10 +20,10 @@ sudo /etc/init.d/nginx restart
 mysql -uroot -e "create database django"
 
 # creare symbolic links to gunicorn configs
-sudo ln -sf /home/box/web/etc/hello.py  /etc/gunicorn.d/hello.py
-sudo ln -sf /home/box/web/etc/django-gunicorn.conf  /etc/gunicorn.d/django-gunicorn.conf
+sudo -s ln -sf /home/box/web/etc/hello.py  /etc/gunicorn.d/hello.py
+sudo -s ln -sf /home/box/web/etc/django-gunicorn.conf  /etc/gunicorn.d/django-gunicorn.conf
 
 # run gunicorn server
 cd /home/box/web/ask
-sudo gunicorn -с /etc/gunicorn.d/hello.py hello:app
-sudo gunicorn -с /etc/gunicorn.d/django-gunicorn.conf ask.wsgi:application
+sudo -s gunicorn -с /etc/gunicorn.d/hello.py hello:app
+sudo -s gunicorn -с /etc/gunicorn.d/django-gunicorn.conf ask.wsgi:application
