@@ -102,3 +102,12 @@ Remote instance
    $ cd web
    $ bash init.sh
 #. Enjoy!
+
+
+---------
+Test file
+---------
+
+These lines have to be added to: /home/box/server_113.py
+6 +++ import django
+7 +++ django.setup()

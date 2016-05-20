@@ -33,7 +33,7 @@ cd /home/box/web && \
    export PYTHONPATH=$(pwd):$PYTHONPATH && \
    cd /home/box/web/ask && \
    python manage.py migrate && \
-   sudo gunicorn -с ../etc/django-gunicorn.conf ask.wsgi:application
+   exec gunicorn -с ../etc/django-gunicorn.conf ask.wsgi:application
 
 # http://stackoverflow.com/questions/28170897/importerror-shell-script-to-start-gunicorn-fails-to-find-module
 
