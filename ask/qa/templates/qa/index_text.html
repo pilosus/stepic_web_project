@@ -1,0 +1,13 @@
+{% extends 'qa/base.html' %}
+
+{% block title %}
+{{ block.super }} New Questions - Page {{ questions.number }}{{ page }}
+{% endblock %}
+
+{% block content %}
+<ul>
+{% for question in questions %}
+ <li>{{ question.title }} <a href="/question/{{ question.id }}/">/question/{{ question.id }}/</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}

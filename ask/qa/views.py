@@ -38,7 +38,7 @@ def index(request, *args, **kwargs):
         'paginator': paginator,
         'limit': limit,
     }
-    return render(request, 'qa/index_lite.html', context)
+    return render(request, 'qa/index_text.html', context)
 
 @require_GET
 def popular(request, *args, **kwargs):
