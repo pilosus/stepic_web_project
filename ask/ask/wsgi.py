@@ -11,10 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-# http://stackoverflow.com/a/25244833/4241180
-import django
-django.setup()
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ask.settings")
+#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ask.settings")
+os.environ["DJANGO_SETTINGS_MODULE"] = "ask.settings"
 
 application = get_wsgi_application()
