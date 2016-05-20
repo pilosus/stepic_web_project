@@ -10,7 +10,7 @@ from django.http import HttpResponse
 @require_GET
 def index(request, *args, **kwargs):
     # list of questions in desc order by publication datetime
-    question_list = Question.objects.order_by('-added_at')
+    question_list = Question.objects.order_by('-id')
 
     # pagination
     try:
@@ -38,7 +38,7 @@ def index(request, *args, **kwargs):
         'paginator': paginator,
         'limit': limit,
     }
-    return render(request, 'qa/index_text.html', context)
+    return render(request, 'qa/index.html', context)
 
 @require_GET
 def popular(request, *args, **kwargs):
@@ -71,7 +71,7 @@ def popular(request, *args, **kwargs):
         'paginator': paginator,
         'limit': limit,
     }
-    return render(request, 'qa/popular_lite.html', context)
+    return render(request, 'qa/popular.html', context)
 
 
 def test(request, *args, **kwargs):
@@ -87,4 +87,4 @@ def question(request, question_id):
         'question': q,
         'answers': a,
     }
-    return render(request, 'qa/question_lite.html', context)    
+    return render(request, 'qa/question.html', context)    

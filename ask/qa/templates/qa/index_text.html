@@ -7,7 +7,9 @@
 {% block content %}
 <ul>
 {% for question in questions %}
- <li><a href="/question/{{ question.id }}/">{{ question.title }}</a></li>
+<li><a href="/question/{{ question.id }}/">{{ question.title }}</a><br>
+  {{ question.text }}
+</li>
   {% endfor %}
 </ul>
 {% endblock %}
