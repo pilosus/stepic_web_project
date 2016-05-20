@@ -62,20 +62,6 @@ $ python manage.py shell
 
 
 
-======
-Deploy
-======
-
---
-DB
---
-
-Instead of hardcored into ask/ask/settings.py, DB password should be
-specified as a shell variable:
-
-$ export DB_PASSWORD=your_password
-
-
 ----------
 Migrations
 ----------
@@ -91,3 +77,28 @@ Migrations
 #. Apply migration to DB:
    $ python manage.py migrate
    
+
+======
+Deploy
+======
+
+--
+DB
+--
+
+Instead of hardcored into ask/ask/settings.py, DB password should be
+specified as a shell variable:
+
+$ export DB_PASSWORD=your_password
+
+---------------
+Remote instance
+---------------
+
+#. Clone repo into web folder
+   $ git clone https://github.com/pilosus/stepic_web_project.git /home/box/web
+#. Install requirements
+#. Start init script
+   $ cd web
+   $ bash init.sh
+#. Enjoy!

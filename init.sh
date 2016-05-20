@@ -29,13 +29,11 @@ sudo -s ln -sf /home/box/web/etc/django-gunicorn.conf  /etc/gunicorn.d/django-gu
 
 # 
 cd /home/box/web && \
-    export PYTHONPATH=$(pwd):$PYTHONPATH \
-    virtualenv venv && \
-    source /home/box/web/venv/bin/activate && \
-    pip install -r requirements/list.txt && \
-    cd /home/box/web/ask && \
-    python manage.py migrate && \
-    exec ../venv/bin/gunicorn -с ../etc/django-gunicorn.conf ask.wsgi:application
+   sudo pip install -r requirements/list.txt && \
+   export PYTHONPATH=$(pwd):$PYTHONPATH && \
+   cd /home/box/web/ask && \
+   python manage.py migrate && \
+   sudo gunicorn -с ../etc/django-gunicorn.conf ask.wsgi:application
 
 # http://stackoverflow.com/questions/28170897/importerror-shell-script-to-start-gunicorn-fails-to-find-module
 
