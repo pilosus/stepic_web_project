@@ -10,7 +10,7 @@
 <div class="questions">
     {% for question in questions %}
     <div class="question">
-	<h3>Q{{ question.id }}: {{ question.title }}</a></h3>
+	<h3>Q{{ question.id }}: {{ question.title }}</h3>
 	<h5>Rating: {{ question.rating }}. Added by {{ question.author.username }} on {{ question.added_at }}</h5>
 	
 	<p>{{ question.text }}</p>

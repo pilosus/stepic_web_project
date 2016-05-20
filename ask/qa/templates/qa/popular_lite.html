@@ -1,0 +1,16 @@
+{% extends 'qa/base.html' %}
+
+{% block title %}
+{{ block.super }} Popular Questions - Page {{ questions.number }}{{ page }}
+{% endblock %}
+
+{% block content %}
+{% for question in questions %}
+  <h3>{{ question.title }}</h3>
+  {% with answers=question.answer_set.count %}
+  <p><a href="/question/{{ question.id }}/">
+    {{ answers }} Answer(s)</a>
+  </p>
+  {% endwith %}
+{% endfor %}
+{% endblock %}

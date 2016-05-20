@@ -9,7 +9,7 @@
 
 {% if question %}
 <div class="question">
-    <h1>Q{{ question.id }}: {{ question.title }}</a></h1>
+    <h1>Q{{ question.id }}: {{ question.title }}</h1>
     <h2>Rating: {{ question.rating }}. Added by {{ question.author.username }} on {{ question.added_at }}</h2>
     
     <p>{{ question.text }}</p>
