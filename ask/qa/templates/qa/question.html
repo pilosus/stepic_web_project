@@ -1,0 +1,37 @@
+{% extends 'qa/base.html' %}
+
+{% block title %}
+{{ block.super }} Question {{ questions.id }}{{ page }}
+{% endblock %}
+
+{% block content %}
+{{ block.super }} 
+
+{% if question %}
+<div class="question">
+    <h1>Q{{ question.id }}: {{ question.title }}</a></h1>
+    <h2>Rating: {{ question.rating }}. Added by {{ question.author.username }} on {{ question.added_at }}</h2>
+    
+    <p>{{ question.text }}</p>
+</div>
+{% endif %}
+
+<hr>
+
+{% if answers %}
+<div class="answers">
+    {% for answer in answers %}
+    <div class="answer">
+	<h3>A{{ answer.id }}: {{ answer.author.username }} posted on {{ answer.added_at }}</h3>
+	
+	<p>{{ answer.text }}</p>
+    </div>
+
+    <hr>
+    {% endfor %}
+</div>
+{% else %}
+   <p>No answers posted yet. Takie dela, kotany!</p>
+{% endif %}
+
+{% endblock %}

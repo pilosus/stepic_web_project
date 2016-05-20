@@ -76,3 +76,18 @@ specified as a shell variable:
 $ export DB_PASSWORD=your_password
 
 
+----------
+Migrations
+----------
+
+#. Check if models are OK:
+   $ python manage.py check;
+#. When changes to the models.py are made, create migration:
+   $ python manage.py makemigrations qa
+#. See what migrations look like:
+   $ python manage.py sqlmigrate qa num_of_migration
+   where `num_of_migration` if the first digits in the output like this:
+   0002_auto_20160520_1019.py
+#. Apply migration to DB:
+   $ python manage.py migrate
+   

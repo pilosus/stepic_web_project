@@ -1,4 +1,22 @@
-A
-{% block A %}B{% endblock %}
-C
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <title>{% block title%}Ask Me Anything - {% endblock %}</title>
+      
+      {% block meta %}
+      {% endblock %}
+  </head>
+  <body>
+      <nav class="navigation">
+	  <a href="/">New</a>
+	  <a href="/popular/">Popular</a>
+      </nav>
+      
+      {% block content %}
+      {% endblock %}
 
+      {% block scripts %}
+      {% endblock %}
+  </body>
+</html>
