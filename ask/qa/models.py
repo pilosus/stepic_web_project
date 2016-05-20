@@ -8,7 +8,7 @@ class Question(models.Model):
     title = models.CharField(max_length=255)
     text = models.TextField()
     added_at = models.DateTimeField(blank=True, null=True)
-    rating = models.IntegerField()
+    rating = models.IntegerField(blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     # http://stackoverflow.com/a/2607848/4241180
     #author = models.OneToOneField(User, on_delete=models.CASCADE)
