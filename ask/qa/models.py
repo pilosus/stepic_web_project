@@ -13,8 +13,6 @@ class Question(models.Model):
     added_at = models.DateTimeField(blank=True, auto_now_add=True)
     rating = models.IntegerField(blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    # http://stackoverflow.com/a/2607848/4241180
-    #author = models.OneToOneField(User, on_delete=models.CASCADE)
     likes = models.ManyToManyField(User, related_name='likes')
 
     def get_url(self):
@@ -28,9 +26,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     text = models.TextField()
-    #added_at = models.DateTimeField(blank=True,  null=True, default=datetime.utcnow())
     added_at = models.DateTimeField(blank=True,  auto_now_add=True)
-    #question = models.OneToOneField(Question, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 

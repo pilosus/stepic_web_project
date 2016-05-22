@@ -3,7 +3,9 @@ from django.views.decorators.http import require_GET
 from .models import Question, Answer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404, HttpResponseRedirect
-from .forms import AskForm, AnswerForm
+from .forms import AskForm, AnswerForm, LoginForm, SignupForm
+from django.contrib.auth import authenticate, login, logout
+from django.core.urlresolvers import reverse
 
 # Create your views here.
 from django.http import HttpResponse 
@@ -38,12 +40,10 @@ def test(request, *args, **kwargs):
     #return HttpResponse('OK')
 
 def question(request, question_id):
-    if request.method == 'POST':
-        return answer(request)
-    
+    """POST and GET methods needed"""
     q = get_object_or_404(Question, id=question_id)
-    a = Answer.objects.filter(question=q.id).order_by('-added_at')
-    user = request.user
+    a = q.answer_set.all()
+    #a = Answer.objects.filter(question=question_id).order_by('-added_at')
     form = AnswerForm(initial = {'question': question_id})
     context = {'question': q, 'answers': a, 'form': form, }
     return render(request, 'qa/question.html', context)    
@@ -64,11 +64,51 @@ def answer(request):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():
+            print('Answer is valid')
             form._user = request.user
             answer = form.save()
             url = answer.get_url()
             return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')
 
+def user_signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            # maybe used to check is user is anonymous
+            form._user = request.user
+            user = form.save()
+            # redirect to login with request
+            if user is not None:
+                # login from django lib
+                login(request, user)
+                return HttpResponseRedirect(reverse('index'))
+        
+    else:
+        form = SignupForm()
+    return render(request, 'qa/signup.html', {'form': form})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            form._user = request.user
+            user = form.save()
+            # redirect to login with request
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect(reverse('index'))
+
+    else:
+        form = LoginForm()
+    return render(request, 'qa/login.html', {'form': form})
+
+def user_logout(request):
+    if request.user is not None:
+        logout(request)
+        return HttpResponseRedirect(reverse('index'))
+        
 def paginate(request, lst):
     # get limit
     try:

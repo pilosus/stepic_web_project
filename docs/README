@@ -91,6 +91,21 @@ specified as a shell variable:
 
 $ export DB_PASSWORD=your_password
 
+-------
+SQLite3
+-------
+
+If SQLite3 is used, then do:
+
+$ cd ~/
+$ sudo chmod -R a+rw .
+
+Then in ask/ask/settings.py comment:
+import pymysql
+pymysql...
+
+In database settings change ENGINE and comment out NAME
+
 ---------------
 Remote instance
 ---------------
