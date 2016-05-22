@@ -29,14 +29,14 @@ sudo -s /etc/init.d/mysql start && \
 
 # 
 cd /home/box/web && \
-    virtual venv && \
+    virtualenv venv && \
     source venv/bin/activate && \
     sudo pip install -r requirements/production.txt && \
     export PYTHONPATH=$(pwd):$PYTHONPATH && \
     cd /home/box/web/ask && \
     python manage.py migrate && \
     exec gunicorn --bind=0.0.0.0:8000 --workers=4 \
-	 --pythonpath = '/home/box/web/ask' \
+#	 --pythonpath = '/home/box/web/ask' \
 	 ask.wsgi:application
 
 #exec gunicorn -с ../etc/django-gunicorn.conf ask.wsgi:application
