@@ -2,39 +2,18 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_GET
 from .models import Question, Answer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
+from .forms import AskForm, AnswerForm
 
 # Create your views here.
 from django.http import HttpResponse 
 
 @require_GET
 def index(request, *args, **kwargs):
-    # list of questions in desc order by publication datetime
     question_list = Question.objects.order_by('-id')
-
-    # pagination
-    try:
-        limit = int(request.GET.get('limit', 10))
-    except ValueError:
-        limit = 10
-
-    if limit > 100:
-        limit = 10
-
-    paginator = Paginator(question_list, limit)
-        
-    try:
-        page = int(request.GET.get('page', 1))
-    except ValueError:
-        raise Http404
-    
-    try:
-        questions = paginator.page(page)
-    except EmptyPage:
-        questions = paginator.page(paginator.num_pages)
-    
+    paginator, page, limit = paginate(request, question_list)
     context = {
-        'questions': questions,
+        'questions': page,
         'paginator': paginator,
         'limit': limit,
     }
@@ -44,30 +23,9 @@ def index(request, *args, **kwargs):
 def popular(request, *args, **kwargs):
     # list of questions in desc order by rating
     question_list = Question.objects.order_by('-rating')
-
-    # pagination
-    try:
-        limit = int(request.GET.get('limit', 10))
-    except ValueError:
-        limit = 10
-
-    if limit > 100:
-        limit = 10
-
-    paginator = Paginator(question_list, limit)
-        
-    try:
-        page = int(request.GET.get('page', 1))
-    except ValueError:
-        raise Http404
-    
-    try:
-        questions = paginator.page(page)
-    except EmptyPage:
-        questions = paginator.page(paginator.num_pages)
-    
+    paginator, page, limit = paginate(request, question_list)    
     context = {
-        'questions': questions,
+        'questions': page,
         'paginator': paginator,
         'limit': limit,
     }
@@ -80,11 +38,59 @@ def test(request, *args, **kwargs):
     #return HttpResponse('OK')
 
 def question(request, question_id):
-    q = get_object_or_404(Question, id=question_id)
-    a = Answer.objects.filter(question=q.id).order_by('-added_at')
+    if request.method == 'GET':
+        q = get_object_or_404(Question, id=question_id)
+        a = Answer.objects.filter(question=q.id).order_by('-added_at')
+        user = request.user
+        form = AnswerForm(initial = {'question': question_id})
+        context = {'question': q, 'answers': a, 'form': form, }
+        return render(request, 'qa/question.html', context)    
+
+def ask(request, *args, **kwargs):
+    if request.method == 'POST':
+        form = AskForm(request.POST)
+        if form.is_valid():
+            form._user = request.user
+            question = form.save()
+            url = question.get_url()
+            return HttpResponseRedirect(url)
+    else:
+        form = AskForm()
+    return render(request, 'qa/ask.html', {'form': form})
+
+def answer(request):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            form._user = request.user
+            answer = form.save()
+            url = answer.get_url()
+            return HttpResponseRedirect(url)
+
+def paginate(request, lst):
+    # get limit
+    try:
+        limit = int(request.GET.get('limit', 10))
+    except ValueError:
+        limit = 10
+
+    # if limit is too high, normalize it
+    if limit > 100:
+        limit = 10
+
+    paginator = Paginator(lst, limit)
+
+    # get current page
+    try:
+        page = int(request.GET.get('page', 1))
+    except ValueError:
+        raise Http404
+
     
-    context = {
-        'question': q,
-        'answers': a,
-    }
-    return render(request, 'qa/question.html', context)    
+    try:
+        page = paginator.page(page)
+    except EmptyPage:
+        page = paginator.page(paginator.num_pages)
+
+    return paginator, page, limit
+    
