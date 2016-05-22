@@ -75,33 +75,22 @@ def user_signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
-            # maybe used to check is user is anonymous
-            form._user = request.user
             user = form.save()
-            # redirect to login with request
             if user is not None:
-                # login from django lib
                 login(request, user)
                 return HttpResponseRedirect(reverse('index'))
-        
-    else:
-        form = SignupForm()
+    form = SignupForm()
     return render(request, 'qa/signup.html', {'form': form})
-
 
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            form._user = request.user
             user = form.save()
-            # redirect to login with request
             if user is not None:
                 login(request, user)
                 return HttpResponseRedirect(reverse('index'))
-
-    else:
-        form = LoginForm()
+    form = LoginForm()
     return render(request, 'qa/login.html', {'form': form})
 
 def user_logout(request):
