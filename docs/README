@@ -111,3 +111,28 @@ Test file
 These lines have to be added to: /home/box/server_113.py
 6 +++ import django
 7 +++ django.setup()
+
+=======
+Testing
+=======
+
+Instead of curl, HTTPie may be used as well. It's a super cool tool,
+check it out:
+
+https://github.com/jkbrzt/httpie
+
+#. Get HTTP Headers only
+   $ (venv) http --headers GET http://127.0.0.1:8000/
+
+#. Show both request and response
+   $ (venv) http --verbose GET http://127.0.0.1:8000/
+
+#. Plain vanilla request
+   $ (venv) http GET http://127.0.0.1:8000/
+
+#. Submit Form after authentication process using POST method:
+   $ (venv) http --auth <email>:<password> --json POST \
+   > http://127.0.0.1:8000/api/v1.0/posts/ \
+   > body=This is a test, you insensitive clod.
+
+

@@ -24,18 +24,17 @@ sudo -s /etc/init.d/mysql start
 mysql -uroot -e "create database django"
 
 # creare symbolic links to gunicorn configs
-sudo -s ln -sf /home/box/web/etc/hello.py  /etc/gunicorn.d/hello.py
-sudo -s ln -sf /home/box/web/etc/django-gunicorn.conf  /etc/gunicorn.d/django-gunicorn.conf
+#sudo -s ln -sf /home/box/web/etc/hello.py  /etc/gunicorn.d/hello.py
+#sudo -s ln -sf /home/box/web/etc/django-gunicorn.conf  /etc/gunicorn.d/django-gunicorn.conf
 
 # 
 cd /home/box/web && \
-   sudo pip install -r requirements/list.txt && \
+   sudo pip install -r requirements/production.txt && \
    export PYTHONPATH=$(pwd):$PYTHONPATH && \
    cd /home/box/web/ask && \
    python manage.py migrate && \
-   exec gunicorn -с ../etc/django-gunicorn.conf ask.wsgi:application
+   exec gunicorn --bind=0.0.0.0:8000 --workers=2 \
+	--pythonpath = '/home/box/web/ask' --venv PYTHONPATH \
+	ask.wsgi:application
 
-# http://stackoverflow.com/questions/28170897/importerror-shell-script-to-start-gunicorn-fails-to-find-module
-
-#sudo -s gunicorn -с /etc/gunicorn.d/hello.py hello:app
-#sudo -s gunicorn -с /etc/gunicorn.d/django-gunicorn.conf ask.wsgi:application
+#exec gunicorn -с ../etc/django-gunicorn.conf ask.wsgi:application
