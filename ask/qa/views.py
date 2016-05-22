@@ -38,13 +38,15 @@ def test(request, *args, **kwargs):
     #return HttpResponse('OK')
 
 def question(request, question_id):
-    if request.method == 'GET':
-        q = get_object_or_404(Question, id=question_id)
-        a = Answer.objects.filter(question=q.id).order_by('-added_at')
-        user = request.user
-        form = AnswerForm(initial = {'question': question_id})
-        context = {'question': q, 'answers': a, 'form': form, }
-        return render(request, 'qa/question.html', context)    
+    if request.method == 'POST':
+        return answer(request)
+    
+    q = get_object_or_404(Question, id=question_id)
+    a = Answer.objects.filter(question=q.id).order_by('-added_at')
+    user = request.user
+    form = AnswerForm(initial = {'question': question_id})
+    context = {'question': q, 'answers': a, 'form': form, }
+    return render(request, 'qa/question.html', context)    
 
 def ask(request, *args, **kwargs):
     if request.method == 'POST':

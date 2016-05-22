@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'qa.apps.QaConfig', #https://docs.djangoproject.com/en/1.9/intro/tutorial02/
+    'qa',
+    #'qa.apps.QaConfig', #https://docs.djangoproject.com/en/1.9/intro/tutorial02/
 ]
 
 MIDDLEWARE_CLASSES = [

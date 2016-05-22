@@ -20,8 +20,8 @@ sudo -s /etc/init.d/nginx restart
 #sudo -s apt-get install libmysqlclient-dev
 
 # run MySQL & create DB
-sudo -s /etc/init.d/mysql start
-mysql -uroot -e "create database django"
+sudo -s /etc/init.d/mysql start && \
+    mysql -uroot -e "create database django"
 
 # creare symbolic links to gunicorn configs
 #sudo -s ln -sf /home/box/web/etc/hello.py  /etc/gunicorn.d/hello.py
@@ -29,12 +29,14 @@ mysql -uroot -e "create database django"
 
 # 
 cd /home/box/web && \
-   sudo pip install -r requirements/production.txt && \
-   export PYTHONPATH=$(pwd):$PYTHONPATH && \
-   cd /home/box/web/ask && \
-   python manage.py migrate && \
-   exec gunicorn --bind=0.0.0.0:8000 --workers=2 \
-	--pythonpath = '/home/box/web/ask' --venv PYTHONPATH \
-	ask.wsgi:application
+    virtual venv && \
+    source venv/bin/activate && \
+    sudo pip install -r requirements/production.txt && \
+    export PYTHONPATH=$(pwd):$PYTHONPATH && \
+    cd /home/box/web/ask && \
+    python manage.py migrate && \
+    exec gunicorn --bind=0.0.0.0:8000 --workers=4 \
+	 --pythonpath = '/home/box/web/ask' \
+	 ask.wsgi:application
 
 #exec gunicorn -с ../etc/django-gunicorn.conf ask.wsgi:application
